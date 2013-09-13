@@ -18,4 +18,18 @@ $(document).ready(function(){
 
   });
 
+  // Comments
+  $('.toggle-comments').bind('click', function(){
+    console.log('click');
+
+    if ( $('.comments').hasClass('expanded') ) {
+      $('.comments').removeClass('expanded');
+    } else {
+      $('.comments').addClass('expanded');
+    }
+
+  });
+
+
+//-- end
 });

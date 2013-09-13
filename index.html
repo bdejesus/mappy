@@ -131,14 +131,14 @@
           var commentsHtml = '';
 
           if (thing.comments) {
-            commentsHtml = "<ol class='comments'>";
+            commentsHtml = "<div class='comments'><ol>";
             for (var c = 0; c < thing.comments.length; c++) {
               comment = thing.comments[c];
-              console.dir(comment);
-              commentHtml = "<li><img src='"+comment.icon+"' class='avatar' /><span class='author'>"+comment.author+"</span><time>"+comment.time+"</time><div class='comment'>"+comment.comment+"</div></li>";
+
+              commentHtml = "<li><img src='"+comment.icon+"' class='avatar' /><a href='' class='author'>"+comment.author+"</a><time>"+comment.time+"</time><div class='comment'>"+comment.comment+"</div></li>";
               commentsHtml = commentsHtml + commentHtml;
             }
-            commentsHtml = commentsHtml + '</ol>'
+            commentsHtml = commentsHtml + '</ol><form><textarea /></form></div>'
           }
 
           items[i] = $('<li tabindex="0" data-index="' + i + '" class="'+ thing.contentType +'"><time>' + thing.time +

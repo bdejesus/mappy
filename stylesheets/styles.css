@@ -146,18 +146,60 @@ audio {
 .gm-style-iw {
   max-width: 300px !important;
 }
-
-ol.comments li {
+.comments {
+  padding: 10px 20px 10px 50px;
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  position: relative;
+  margin-left: -60px;
+  margin-right: -20px;
+}
+.comments ol li {
+  font-size: 1.1rem;
   display: block;
   min-height: 30px;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 10px 10px 10px 50px;
+  padding: 10px 10px 10px 10px;
+}
+.comments ol time {
+  color: #999;
+  display: block;
+}
+.comments ol .comment {
+  margin-top: 6px;
 }
 .avatar {
-  position: absolute;
+  float: left;
+  margin-right: 10px;
   left: 10px;
   top: 10px;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
+}
+a {
+  text-decoration: none;
+  color: #007fb6;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+form {
+  display: block;
+}
+
+textarea {
+  display: block;
+  min-height: 3em;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #ccc;
+}
+.toggle-comments {
+  cursor: pointer;
 }
