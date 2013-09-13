@@ -6,7 +6,7 @@ body {
   margin: 0;
   font-size: 1.2rem;
 }
-ul {
+ul, ol {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -77,22 +77,22 @@ h1 {
   position: relative;
   transition: all 0.2s ease-in-out;
 }
-#marker-list li:nth-child(odd) {
+#marker-list > ul > li:nth-child(odd) {
   background-color: rgba(0,0,0,0.04);
 }
-#marker-list li:hover, #marker-list li:focus {
+#marker-list > ul > li:hover, #marker-list > ul > li:focus {
   cursor: pointer;
   box-shadow: inset 4px 0 0 #ff6f00, 0 2px 2px rgba(0,0,0,0.1), 0 -2px 2px rgba(0,0,0,0.1);;
   outline: none;
   background: #fff;
 }
-#marker-list.filtered li {
+#marker-list.filtered > ul > li {
   display: none;
 }
-#marker-list.filtered li.show {
+#marker-list.filtered > ul > li.show {
   display: block;
 }
-#marker-list li time {
+#marker-list > ul > li > time {
   text-align: right;
   display: block;
   color: #666;
@@ -106,7 +106,7 @@ h1 {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
-#marker-list li time:after {
+#marker-list > ul > li > time:after {
   background: #fff;
   border: 1px solid #ddd;
   content: '';
@@ -142,4 +142,22 @@ h1 {
 audio {
   width: 100%;
   margin-top: 10px;
+}
+.gm-style-iw {
+  max-width: 300px !important;
+}
+
+ol.comments li {
+  display: block;
+  min-height: 30px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px 10px 10px 50px;
+}
+.avatar {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
 }

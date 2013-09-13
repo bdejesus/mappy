@@ -13,7 +13,7 @@ $(document).ready(function(){
     } else {
       $('#marker-list').addClass('filtered');
     }
-    $('#marker-list li').removeClass('show');
+    $('#marker-list > ul > li').removeClass('show');
     $('.'+data.filter).addClass('show');
 
   });

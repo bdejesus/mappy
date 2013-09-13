@@ -31,7 +31,21 @@
           lat: -37.927936,
           lng: 144.989877,
           audio: 'Memo7.m4a',
-          image: 'http://instagram.com/p/c815vjAiet/media/?size=t'
+          image: 'http://instagram.com/p/c815vjAiet/media/?size=t',
+          comments: [
+            {
+              time: "1:20pm",
+              author: "John Frankie",
+              comment: "Who?",
+              icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/10620/110939/1/medium.jpg'
+            },
+            {
+              time: "1:25pm",
+              author: "Some Body",
+              comment: "Which one is it?",
+              icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/6887/547/10/medium.jpg'
+            }
+          ]
         },
         {
           contentType: 'note',
@@ -49,26 +63,26 @@
           lng: 145.046911
         }
       ];
-      
+
       var comments	 = [
         {
           time: "1:20pm",
           author: "John Frankie",
           comment: "Who?",
           icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/10620/110939/1/medium.jpg'
-        }, 
+        },
         {
           time: "1:25pm",
           author: "Some Body",
           comment: "Which one is it?",
           icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/6887/547/10/medium.jpg'
-        }, 
+        },
         {
           time: "2:03pm",
           author: "I.P. Daily",
           comment: "Is that your mom?",
           icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/1523697/408313/1/medium.jpg'
-        }, 
+        },
         {
           time: "5:15pm",
           author: "Sr. Strava",
@@ -101,25 +115,36 @@
             icon: thing.image ? 'photo.png' : 'text.png'
           });
 
-	      content = '';
+  	      var content = '';
+
+
           if (thing.image) {
             content = '<img src="' + thing.image + '"><br />' + content;
           }
-          
-          if (thing.audio) {
-          	content = content  +
-                        '<br/>' + 
-                        '<a href="javascript:null()" onClick="EvalSound(\'' + thing.audio + '\'); return false;">' + 
-						'<img src="audio.jpg" alt="" width="" height="" class="" /></a>' +
-						thing.content;
-		  } else {
-		    content = content  +
-                        '<br/>' + 
-						thing.content;
-		  }
 
-          items[i] = $('<li tabindex="0" data-index="' + i + '" class="'+ thing.contentType +'"><time>' + thing.time + 
-          				"</time><div class='content' data-index='" + i + "'>" + content + '</div></li>');
+          if (thing.audio) {
+          	content = content  + '<a href="javascript:null()" onClick="EvalSound(\'' + thing.audio + '\'); return false;">' + '<img src="audio.jpg" alt="" width="" height="" class="" /></a>' + thing.content;
+    		  } else {
+    		    content = content + thing.content;
+    		  }
+
+          var commentsHtml = '';
+
+          if (thing.comments) {
+            commentsHtml = "<ol class='comments'>";
+            for (var c = 0; c < thing.comments.length; c++) {
+              comment = thing.comments[c];
+              console.dir(comment);
+              commentHtml = "<li><img src='"+comment.icon+"' class='avatar' /><span class='author'>"+comment.author+"</span><time>"+comment.time+"</time><div class='comment'>"+comment.comment+"</div></li>";
+              commentsHtml = commentsHtml + commentHtml;
+            }
+            commentsHtml = commentsHtml + '</ol>'
+          }
+
+          items[i] = $('<li tabindex="0" data-index="' + i + '" class="'+ thing.contentType +'"><time>' + thing.time +
+          				"</time><div class='content' data-index='" + i + "'>" + content + commentsHtml + '</div></li>');
+
+          // Render Thing
           markerList.append(items[i]);
 
           infoWindows[i] = new google.maps.InfoWindow({
