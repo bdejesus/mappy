@@ -72,18 +72,21 @@
           if (thing.image) {
             content = '<img src="' + thing.image + '"><br />' + content;
           }
-
-          content = content + thing.content;
-
+          
           if (thing.audio) {
-            content = content  +
-            			'<audio controls>' +
-  						'<source src="' + thing.audio + '" type="audio/mpeg">' +
-  						'<embed height="100" width="50" src="' + thing.audio + '">' +
-						'</audio>';
-          }
+          	content = content  +
+                        '<br/>' + 
+                        '<a href="javascript:null()" onClick="EvalSound(\'' + thing.audio + '\'); return false;">' + 
+						'<img src="audio.jpg" alt="" width="" height="" class="" /></a>' +
+						thing.content;
+		  } else {
+		    content = content  +
+                        '<br/>' + 
+						thing.content;
+		  }
 
-          items[i] = $('<li tabindex="0" data-index="' + i + '" class="'+ thing.contentType +'"><time>' + thing.time + "</time><div class='content'>" + content + '</div></li>');
+          items[i] = $('<li tabindex="0" data-index="' + i + '" class="'+ thing.contentType +'"><time>' + thing.time + 
+          				"</time><div class='content' data-index='" + i + "'>" + content + '</div></li>');
           markerList.append(items[i]);
 
           infoWindows[i] = new google.maps.InfoWindow({
@@ -107,11 +110,11 @@
           });
 
           items[i].mouseover(function (e) {
-            markers[$(e.target).data('index')].setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function () { markers[$(e.currentTarget).data('index')].setAnimation(google.maps.Animation.BOUNCE); }, 0);
           }).mouseout(function (e) {
-            markers[$(e.target).data('index')].setAnimation(null);
+            markers[$(e.currentTarget).data('index')].setAnimation(null);
           }).click(function (e) {
-            index = $(e.target).data('index');
+            index = $(e.currentTarget).data('index');
             for (var j = 0; j < markers.length; j++) {
             	if (index != j) {
               		infoWindows[j].close();
@@ -134,6 +137,12 @@
       }
 
       google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <script>
+      function EvalSound(soundobj) {
+          var thissound=document.getElementById(soundobj);
+          thissound.play();
+      }
     </script>
   </head>
   <body>
@@ -166,6 +175,15 @@
       </div>
 
     </div>
+	<audio id="Memo.m4a" src="Memo.m4a" type="audio/mpeg" />
+	<audio id="Memo1.m4a" src="Memo1.m4a" type="audio/mpeg" />
+	<audio id="Memo2.m4a" src="Memo2.m4a" type="audio/mpeg" />
+	<audio id="Memo3.m4a" src="Memo3.m4a" type="audio/mpeg" />
+	<audio id="Memo4.m4a" src="Memo4.m4a" type="audio/mpeg" />
+	<audio id="Memo5.m4a" src="Memo5.m4a" type="audio/mpeg" />
+	<audio id="Memo6.m4a" src="Memo6.m4a" type="audio/mpeg" />
+	<audio id="Memo7.m4a" src="Memo7.m4a" type="audio/mpeg" />
+	<audio id="Memo8.m4a" src="Memo8.m4a" type="audio/mpeg" />
 
   </body>
 </html>
