@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Strava Annotations</title>
+    <link rel='stylesheet' href='stylesheets/styles.css' type='text/css' media='screen' />
+    <script src="jquery-2.0.3.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
+    <script>
+      google.maps.visualRefresh = true;
+      var things = [
+        {
+          contentType: 'audio',
+          time: "7:00am",
+          content: "Ahhh the eucalyptus smells lovely",
+          lat: -37.932438,
+          lng: 145.025239,
+          audio: 'Memo8.m4a'
+        },
+        {
+          contentType: 'audio',
+          time: "8:30am",
+          content: "I'm sure I've burned a few kilos on this run. I may have to grab a flat white or a pint afterwards.",
+          lat: -37.975278,
+          lng: 145.016270,
+          audio: 'Memo6.m4a'
+        },
+        {
+          contentType: 'image',
+          time: "8:50am",
+          content: "Just spotted Gary Ablett running the Tan during AFL pre-season!",
+          lat: -37.927936,
+          lng: 144.989877,
+          audio: 'Memo7.m4a',
+          image: 'http://instagram.com/p/c815vjAiet/media/?size=t'
+        },
+        {
+          contentType: 'audio',
+          time: "11:05am",
+          content: "Stopped for a quick brekky in black rock at Odo Cafe. Lots of cyclists there. Bunch of wankers. Cool atmosphere. Great tucker.",
+          lat: -37.856035,
+          lng: 145.001936,
+          audio: 'Memo1.m4a'
+        }
+        //
+      ];
+
+      function initialize() {
+        var mapOptions = {
+          zoom: 12,
+          //center: new google.maps.LatLng(-37.828049, 144.977431),
+          center: new google.maps.LatLng(-37.907248, 145.014038),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+        var markerList = $('#marker-list ul');
+        var items = []
+        var markers = []
+        var infoWindows = []
+
+        for (var i = 0; i < things.length; i++) {
+          var thing = things[i];
+
+          markers[i] = new google.maps.Marker({
+            position: new google.maps.LatLng(thing.lat, thing.lng),
+            map: map,
+            title: thing.content,
+            icon: thing.image ? 'photo.png' : 'text.png'
+          });
+
+	      content = '';
+          if (thing.image) {
+            content = '<img src="' + thing.image + '"><br />' + content;
+          }
+
+          content = content + thing.content;
+
+          if (thing.audio) {
+            content = content  +
+            			'<audio controls>' +
+  						'<source src="' + thing.audio + '" type="audio/mpeg">' +
+  						'<embed height="100" width="50" src="' + thing.audio + '">' +
+						'</audio>';
+          }
+
+          items[i] = $('<li tabindex="0" data-index="' + i + '" class="'+ thing.contentType +'"><time>' + thing.time + "</time><div class='content'>" + content + '</div></li>');
+          markerList.append(items[i]);
+
+          infoWindows[i] = new google.maps.InfoWindow({
+            content: content
+          });
+
+          google.maps.event.addListener(markers[i], 'click', function () {
+            for (var j = 0; j < markers.length; j++) {
+              if (things[j].content == this.getTitle()) {
+                infoWindows[j].open(map, this);
+              } else {
+                infoWindows[j].close();
+              }
+            }
+          });
+
+          google.maps.event.addListener(map, 'click', function () {
+            for (var j = 0; j < markers.length; j++) {
+              	infoWindows[j].close();
+            }
+          });
+
+          items[i].mouseover(function (e) {
+            markers[$(e.target).data('index')].setAnimation(google.maps.Animation.BOUNCE);
+          }).mouseout(function (e) {
+            markers[$(e.target).data('index')].setAnimation(null);
+          }).click(function (e) {
+            index = $(e.target).data('index');
+            for (var j = 0; j < markers.length; j++) {
+            	if (index != j) {
+              		infoWindows[j].close();
+              	}
+            }
+            infoWindows[index].open(map, markers[index]);
+          });
+        }
+
+        var latLngs = google.maps.geometry.encoding.decodePath("b`{eF{njtZYlCMt@YhAa@rAmApC}@pAoApAm@`@IXEPIjC_@nFg@hJQ~BEbBJDCb@WlA_@rGS`CYfFEEE^g@rKk@rIg@|JSpCI|Bg@vGu@pLWjG_@rG]dFc@hI[~DY`EC`@Bf@RHf@AXBvDh@xANf@FR?fBJjD`@zHp@r@R@Af@JVb@Ab@S~@a@~Am@`DSnA[lK?n@TxC^|B`@|DZvAVnBl@v@n@Rh@`@^dABz@AR[hCEpC?tBAx@JjCb@~@t@Hd@?`CJxAYN?bAHrEh@N@n@EpAb@\\Dh@Cd@DdDf@b@L\\DtALnAPl@Br@LrEd@pDX|@Dn@HTVC\\SpAQ`DSrFi@|IYvDEnBBHFDN@VCh@Fl@Hj@P~@Jr@DNCT@ZHVDX@\\Fv@V\\HdAJdBHv@LrAL~Df@`AFrABpDh@`AHfEf@nB\\^BbB^hAN~BL|@NlAZ?AL?j@Fn@NnDRpAL|@@rEXVDjCVp@JfBLj@A@C?CV?rD`@zD\\rBZpC\\~ALvGr@p@BjAN|AJlE`@bEb@bDd@rAJdDf@`CXrNxACClBX`Gn@nDZ~@PhAHjAPnEd@pBT`BNfFn@~BTtJhAhD\\D?CEH@rDj@pDd@jJz@zCd@bI`ALAJDh@JPA^OVYb@]lBoAzAiAjB{Ax@i@~AuABGA?RC`@d@v@vBz@jBzBlFHNj@b@NDfCHhBXfIv@dKpA`Hn@lBZlGn@hC\\rD`@pAJpAR~AN~IfA~D^|OfBfAH|El@lBRfLrAvANlBLhMrAxEn@p@Gz@HNAjDk@tHuA~F}@xEcApAMzAc@v@w@JAj@NNHhACrBk@tJeBjDe@xE{@l@Ez@OjFp@lGh@~@LRDDBJZ?`@UvAoAzSGfBHd@TDd@YX[pBaB`AaAtEkFrAwArDcDvAuA~F{EbFiEzGcGzAyAxG}FvBaBbCeAhDeBn@YdASlFq@`AObA_@tAu@`CgARClAc@p@K~@C`AD`E^bEh@jAJ`Fn@zADzAa@^WrF_GpGoGzEcEdD{CnIeHpDcDhJoHjCcClFoExAm@vD_AjBk@jD_Av@Ob@ObCs@tBE~QIj@@bAJlJjAh@@rAWRIjB{A~PwMfFsDZS`@_@t@]lDq@z@WjNkFnB{@nBu@tDqAdAeALYnA{ElAkFTo@l@aAdAmAl@{@zAkBvBuCp@cAzAgBxEkFrDoElAoAv@i@v@[tAc@j@Mv@]pAo@zAgAhH{FxEkD~@_AR]La@lAeElAmDrCkJhBqFf@mBFiACs@EWMk@[{@}@wAcJgMmBiCk@a@]QqGsC{@w@wCyEmDoMs@}BwBwFoBsEuBkDeD_Ge@qA?}A`@gDRwCJk@vAwDt@}BbDaJx@aCvAsDj@_Bt@oCRm@tA{ChIiPlHeNr@wA~B_E~C_G`BkCdFiGtDiEpA_BlAcBvAgBlHaJpAyAjI{JdImJvSsVrDaEbD{DzCeDZWTh@\\VNFL^KJDED?NJL\\QZS@a@S[c@Uc@GAOKE?a@Vm@f@eBhBQLkDxEeJlKqCxCyC|DwKvMaDhDyBjCg@r@kBpBcKdMaG`HsHjJiAbByChFm@bA{DpHgD~FcDfH}A`DsA`CeA|BgArBm@pAa@`AoG~QgAvC{@bCiB|Ec@pAKb@Id@g@bHDbBJd@Nf@dDlFvBxDrB|EpCjHzAhFlAvEh@fB|ClEZ\\bAh@hCjA~BrAxAfB~KxO`AfBFPRpA@vAEh@wBfG}EpOeApCgAfDMTo@|@c@\\y@h@gBxAsDnCaDzBoAfA[Pw@\\QDk@ViE~Aw@l@[ZsAdBcIbJo@z@oAvAyEpGgDhE[h@_@fAk@pCiBxGQd@cAbAa@N}Bj@qC`AcIfDgC~@eBt@eBh@aC^aAv@KJ_@QOu@[QYAo@O}@Ca@EgCa@_@KcEe@iCc@iACeEi@mFm@yCa@uAMuAWgFg@aDe@oEg@eCUkAMoDk@yAO[Gk@OiCa@gGi@cFu@uCU}AWyC[}IuA}Dc@I@_@Ig@S{Gq@eASc@EeFc@sBYiGq@}AWeFi@KA_@SiAIu@S}F]yBW_DW_C[sEi@eMeAiAQgBQy@OkBQqFu@mGm@_DUgEa@wAQwAYQOs@cBw@uAA{AZgD~@}NVwC^_HTyCNoAPkCPmFNwBPiDZ}CEa@s@Kg@?o@Ac@YASV{CLaCE[SOk@@{CSuBWyB]qCYuAIaGm@{Gi@u@KgBQsEq@oIu@}Dk@kEi@kAMqHo@@GmEm@cBE}BWwBKaEYgQ}AwEe@kBU{W_CiH{@gBIM?c@Hi@?cBYuAMiD_@uB_@gKkAuBO}KkAuK{AiBO{Di@eACyBd@yEtAuHlBcATg@D[KMGi@_@}A_AcK{E{GyCy@e@{BcAsHsDmGmCg@Ww@AcA\\eAf@}EzC_EvCe@DKGYYu@]sFk@y@E?@{@MyKqAsBSsEk@yE]aHq@uB[}CWkEo@iB[mC]y@GUEm@C]KeAOuBOiFi@oBM{Em@oBOcEe@w@G_C]k@MsDg@mBOqBWqBQyFs@wCYu@KiB_@u@GiBEs@A}BDW?_C]u@OsA_@mBc@sGw@kD_@aBWkAK}ASy@G_BYkEm@mAKo@MuCWwAS}BU{AQmFc@sDe@iBOmC[q@Cw@O}@G{Eu@mAGaAKc@IyBSiI_AgDYm@Cm@IW@QGCESG_AIu@SqBYaGq@{@Iy@A@CIC_Ee@o@Oo@?BDAHGR");
+        var flightPath = new google.maps.Polyline({
+            path: latLngs,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
+          //var bikeLayer = new google.maps.BicyclingLayer();
+          //bikeLayer.setMap(map);
+          flightPath.setMap(map);
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+
+    <div class='container'>
+
+      <header>
+        <h1>STRAVA</h1>
+      </header>
+
+      <div class='main'>
+        <div class='sidebar'>
+          <div class='header'>
+            <ul class='nav'>
+              <li>All</li>
+              <li>Photos</li>
+              <li>Audio</li>
+              <li>Notes</li>
+              <li>Videos</li>
+              <li>POIs</li>
+            </ul>
+          </div>
+          <div id="marker-list">
+            <ul></ul>
+          </div>
+
+        </div>
+
+        <div id="map-canvas" class='map'></div>
+      </div>
+
+    </div>
+
+  </body>
+</html>
