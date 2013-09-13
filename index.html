@@ -9,7 +9,7 @@
       google.maps.visualRefresh = true;
       var things = [
         {
-          contentType: 'audio',
+          contentType: 'video',
           time: "7:00am",
           content: "Ahhh the eucalyptus smells lovely",
           lat: -37.932438,
@@ -34,14 +34,47 @@
           image: 'http://instagram.com/p/c815vjAiet/media/?size=t'
         },
         {
-          contentType: 'audio',
+          contentType: 'note',
           time: "11:05am",
           content: "Stopped for a quick brekky in black rock at Odo Cafe. Lots of cyclists there. Bunch of wankers. Cool atmosphere. Great tucker.",
           lat: -37.856035,
           lng: 145.001936,
           audio: 'Memo1.m4a'
+        },
+        {
+          contentType: 'geo',
+          time: "12:30",
+          content: "Brown Cow Cafe",
+          lat: -37.877157,
+          lng: 145.046911
         }
-        //
+      ];
+      
+      var comments	 = [
+        {
+          time: "1:20pm",
+          author: "John Frankie",
+          comment: "Who?",
+          icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/10620/110939/1/medium.jpg'
+        }, 
+        {
+          time: "1:25pm",
+          author: "Some Body",
+          comment: "Which one is it?",
+          icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/6887/547/10/medium.jpg'
+        }, 
+        {
+          time: "2:03pm",
+          author: "I.P. Daily",
+          comment: "Is that your mom?",
+          icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/1523697/408313/1/medium.jpg'
+        }, 
+        {
+          time: "5:15pm",
+          author: "Sr. Strava",
+          comment: "I thought he was taller",
+          icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/57/826/2/medium.jpg'
+        }
       ];
 
       function initialize() {
@@ -149,20 +182,20 @@
 
     <div class='container'>
 
-      <header>
+<!--       <header>
         <h1>STRAVA</h1>
-      </header>
+      </header> -->
 
       <div class='main'>
         <div class='sidebar'>
           <div class='header'>
-            <ul class='nav'>
-              <li>All</li>
-              <li>Photos</li>
-              <li>Audio</li>
-              <li>Notes</li>
-              <li>Videos</li>
-              <li>POIs</li>
+            <ul class='nav' id='filters'>
+              <li class='selected' data-filter='none'>All</li>
+              <li data-filter='image'><img src='images/icon-image.png' title='Images' /></li>
+              <li data-filter='audio'><img src='images/icon-audio.png' title='Audio' /></li>
+              <li data-filter='note'><img src='images/icon-note.png' title='Note' /></li>
+              <li data-filter='video'><img src='images/icon-video.png' title='Video' /></li>
+              <li data-filter='geo'><img src='images/icon-geo.png' title='Geo' /></li>
             </ul>
           </div>
           <div id="marker-list">
@@ -185,5 +218,6 @@
 	<audio id="Memo7.m4a" src="Memo7.m4a" type="audio/mpeg" />
 	<audio id="Memo8.m4a" src="Memo8.m4a" type="audio/mpeg" />
 
+    <script src="javascripts/ui.js"></script>
   </body>
 </html>

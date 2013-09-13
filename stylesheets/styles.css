@@ -33,7 +33,7 @@ h1 {
   margin: 0;
 }
 .map, .sidebar {
-  top: 30px;
+  top: 0px;
   bottom: 0;
 }
 .map {
@@ -51,12 +51,23 @@ h1 {
 .sidebar .header {
   background: #333;
   color: #fff;
-  min-height: 36px;
+  min-height: 34px;
+  padding-left: 80px;
 }
 .sidebar .header li {
   float: left;
   padding: 10px;
   background-color: #454545;
+  opacity: 0.2;
+  cursor: pointer;
+}
+.sidebar .header li:hover,
+.sdiebar .header li:active,
+.sidebar .header li.selected {
+  opacity: 1;
+}
+.sidebar .header li img {
+  margin: -10px 0;
 }
 .sidebar .header li:hover {
   background-color: #454545;
@@ -75,7 +86,15 @@ h1 {
   outline: none;
   background: #fff;
 }
+#marker-list.filtered li {
+  display: none;
+}
+#marker-list.filtered li.show {
+  display: block;
+}
 #marker-list li time {
+  text-align: right;
+  display: block;
   color: #666;
   background-color: rgba(0,0,0,0.04);
   position: absolute;
@@ -87,9 +106,38 @@ h1 {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
+#marker-list li time:after {
+  background: #fff;
+  border: 1px solid #ddd;
+  content: '';
+  display: block;
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  top: 20px;
+  right: -5px;
+}
 #marker-list li .content {
-  padding: 20px;
+  background-repeat: no-repeat;
+  background-position: 20px 20px;
+  padding: 20px 20px 20px 40px;
   margin-left: 80px;
+}
+#marker-list li.audio .content {
+  background-image: url(images/icon-audio-sm.png);
+}
+#marker-list li.note .content {
+  background-image: url(images/icon-note-sm.png);
+}
+#marker-list li.image .content {
+  background-image: url(images/icon-image-sm.png);
+}
+#marker-list li.video .content {
+  background-image: url(images/icon-video-sm.png);
+}
+#marker-list li.geo .content {
+  background-image: url(images/icon-geo-sm.png);
 }
 audio {
   width: 100%;
