@@ -120,24 +120,24 @@ h1 {
 }
 #marker-list li .content {
   background-repeat: no-repeat;
-  background-position: 20px 20px;
-  padding: 20px 20px 20px 40px;
+  background-position: 20px 16px;
+  padding: 20px 20px 20px 60px;
   margin-left: 80px;
 }
 #marker-list li.audio .content {
-  background-image: url(images/icon-audio-sm.png);
+  background-image: url(../images/icon-audio-sm.png);
 }
 #marker-list li.note .content {
-  background-image: url(images/icon-note-sm.png);
+  background-image: url(../images/icon-note-sm.png);
 }
 #marker-list li.image .content {
-  background-image: url(images/icon-image-sm.png);
+  background-image: url(../images/icon-image-sm.png);
 }
 #marker-list li.video .content {
-  background-image: url(images/icon-video-sm.png);
+  background-image: url(../images/icon-video-sm.png);
 }
 #marker-list li.geo .content {
-  background-image: url(images/icon-geo-sm.png);
+  background-image: url(../images/icon-geo-sm.png);
 }
 audio {
   width: 100%;
