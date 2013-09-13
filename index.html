@@ -9,27 +9,43 @@
       google.maps.visualRefresh = true;
       var things = [
         {
+          contentType: 'geo',
+          time: "7:00 am",
+          content: "Bike Gallery",
+          geo_image: "bike_gallery.png",
+          geo_info:"<font color='grey'>74 Auburn Pde<br/>Hawthorn East VIC 3123<br/>Australia<br/></font>Coffee & group rides<br/>Hours: M, Closed, T-S 7a-10p",
+          lat: -37.831518,
+          lng: 145.056696,
+        },
+        {
           contentType: 'video',
-          time: "7:00am",
+          time: "7:10 am",
           content: "Ahhh the eucalyptus smells lovely",
-          lat: -37.932438,
-          lng: 145.025239,
+          lat: -37.877157,
+          lng: 145.046911,
           audio: 'Memo8.m4a'
         },
         {
+          contentType: 'note',
+          time: "10:12 pm",
+          content: "Back, pee & text break",
+          lat: -37.891594,
+          lng: 145.045452,
+        },
+        {
           contentType: 'audio',
-          time: "8:30am",
-          content: "I'm sure I've burned a few kilos on this run. I may have to grab a flat white or a pint afterwards.",
-          lat: -37.975278,
-          lng: 145.016270,
-          audio: 'Memo6.m4a'
+          time: "11:30 am",
+          content: "Ahhh that Fritz Gelato looks pretty good. Remember to stop there after beers with mates tonight.",
+          lat: -37.932438,
+          lng: 145.025239,
+          audio: 'Memo9.m4a'
         },
         {
           contentType: 'image',
-          time: "8:50am",
+          time: "8:50 am",
           content: "Just spotted Gary Ablett running the Tan during AFL pre-season!",
-          lat: -37.927936,
-          lng: 144.989877,
+          lat: -37.975278,
+          lng: 145.016270,
           audio: 'Memo7.m4a',
           image: 'http://instagram.com/p/c815vjAiet/media/?size=t',
           comments: [
@@ -48,54 +64,36 @@
           ]
         },
         {
-          contentType: 'note',
-          time: "11:05am",
+          contentType: 'audio',
+          time: "11:45 am",
           content: "Stopped for a quick brekky in black rock at Odo Cafe. Lots of cyclists there. Bunch of wankers. Cool atmosphere. Great tucker.",
-          lat: -37.856035,
-          lng: 145.001936,
+          lat: -37.985686,
+          lng: 145.052490,
           audio: 'Memo1.m4a'
         },
         {
+          contentType: 'audio',
+          time: "1:30 pm",
+          content: "Attacked by a magpie as soon as we sprinted to Mordi. It's that time of year. Be prepared for the claw.",
+          lat: -37.927936,
+          lng: 144.989877,
+          audio: 'Memo2.m4a'
+        },
+        {
           contentType: 'geo',
-          time: "12:30",
+          time: "2:04 pm",
           content: "Brown Cow Cafe",
-          lat: -37.877157,
-          lng: 145.046911
-        }
-      ];
-
-      var comments	 = [
-        {
-          time: "1:20pm",
-          author: "John Frankie",
-          comment: "Who?",
-          icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/10620/110939/1/medium.jpg'
-        },
-        {
-          time: "1:25pm",
-          author: "Some Body",
-          comment: "Which one is it?",
-          icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/6887/547/10/medium.jpg'
-        },
-        {
-          time: "2:03pm",
-          author: "I.P. Daily",
-          comment: "Is that your mom?",
-          icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/1523697/408313/1/medium.jpg'
-        },
-        {
-          time: "5:15pm",
-          author: "Sr. Strava",
-          comment: "I thought he was taller",
-          icon: 'http://dgalywyr863hv.cloudfront.net/pictures/athletes/57/826/2/medium.jpg'
+          geo_image: "brown_cow.jpg",
+          geo_info:"<font color='grey'>382 Hampton St<br/>Hampton VIC 3188<br/>Australia<br/></font>Meals Served: breakfast, lunch, snacks, coffee<br/>Hours: M-F, 6a-9p, Weekends 7a-11p",
+          lat: -37.856035,
+          lng: 145.001936,
         }
       ];
 
       function initialize() {
         var mapOptions = {
           zoom: 12,
-          //center: new google.maps.LatLng(-37.828049, 144.977431),
-          center: new google.maps.LatLng(-37.907248, 145.014038),
+          center: new google.maps.LatLng(-37.907249, 145.014038),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -108,25 +106,37 @@
         for (var i = 0; i < things.length; i++) {
           var thing = things[i];
 
+	      var markerIcon = '';
+	      if (thing.contentType == 'audio') {
+	        markerIcon = 'Pin_sound.png';
+	      } else if (thing.contentType == 'video') {
+	        markerIcon = 'Pin_video.png';
+	      } else if (thing.contentType == 'note') {
+	        markerIcon = 'Pin_text.png';
+	      } else if (thing.contentType == 'geo') {
+	        markerIcon = 'Pin_geo.png';
+	      } else if (thing.contentType == 'image') {
+	        markerIcon = 'Pin_image.png';
+	      }
+	      
           markers[i] = new google.maps.Marker({
             position: new google.maps.LatLng(thing.lat, thing.lng),
             map: map,
             title: thing.content,
-            icon: thing.image ? 'photo.png' : 'text.png'
+            icon: markerIcon
           });
 
   	      var content = '';
-
-
+	      
           if (thing.image) {
             content = '<img src="' + thing.image + '"><br />' + content;
           }
 
           if (thing.audio) {
           	content = content  + '<a href="javascript:null()" onClick="EvalSound(\'' + thing.audio + '\'); return false;">' + '<img src="audio.jpg" alt="" width="" height="" class="" /></a>' + thing.content;
-    		  } else {
-    		    content = content + thing.content;
-    		  }
+    	  } else {
+    		content = content + thing.content;
+    	  }
 
           var commentsHtml = '';
 
@@ -139,12 +149,12 @@
               commentsHtml = commentsHtml + commentHtml;
             }
             commentsHtml = commentsHtml + '</ol><form><textarea /></form></div>'
-          }
+	      } else if (thing.contentType == 'geo') {
+	        content = "<a href='' style='font-size: 20px'>" + thing.content + "</a><br/><img src='"  + thing.geo_image + "'><br/>" + thing.geo_info;
+	      } 
 
-          items[i] = $('<li tabindex="0" data-index="' + i + '" class="'+ thing.contentType +'"><time>' + thing.time +
+          items[i] = $('<li tabindex="0" data-index="' + i + '" class="'+ thing.contentType +'"><time>' + thing.time + 
           				"</time><div class='content' data-index='" + i + "'>" + content + commentsHtml + '</div></li>');
-
-          // Render Thing
           markerList.append(items[i]);
 
           infoWindows[i] = new google.maps.InfoWindow({
@@ -242,6 +252,7 @@
 	<audio id="Memo6.m4a" src="Memo6.m4a" type="audio/mpeg" />
 	<audio id="Memo7.m4a" src="Memo7.m4a" type="audio/mpeg" />
 	<audio id="Memo8.m4a" src="Memo8.m4a" type="audio/mpeg" />
+	<audio id="Memo9.m4a" src="Memo9.m4a" type="audio/mpeg" />
 
     <script src="javascripts/ui.js"></script>
   </body>
