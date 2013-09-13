@@ -9,7 +9,7 @@
       google.maps.visualRefresh = true;
       var things = [
         {
-          contentType: 'audio',
+          contentType: 'video',
           time: "7:00am",
           content: "Ahhh the eucalyptus smells lovely",
           lat: -37.932438,
@@ -34,7 +34,7 @@
           image: 'http://instagram.com/p/c815vjAiet/media/?size=t'
         },
         {
-          contentType: 'audio',
+          contentType: 'note',
           time: "11:05am",
           content: "Stopped for a quick brekky in black rock at Odo Cafe. Lots of cyclists there. Bunch of wankers. Cool atmosphere. Great tucker.",
           lat: -37.856035,
@@ -140,20 +140,20 @@
 
     <div class='container'>
 
-      <header>
+<!--       <header>
         <h1>STRAVA</h1>
-      </header>
+      </header> -->
 
       <div class='main'>
         <div class='sidebar'>
           <div class='header'>
-            <ul class='nav'>
-              <li>All</li>
-              <li>Photos</li>
-              <li>Audio</li>
-              <li>Notes</li>
-              <li>Videos</li>
-              <li>POIs</li>
+            <ul class='nav' id='filters'>
+              <li class='selected' data-filter='none'>All</li>
+              <li data-filter='image'><img src='images/icon-image.png' title='Images' /></li>
+              <li data-filter='audio'><img src='images/icon-audio.png' title='Audio' /></li>
+              <li data-filter='note'><img src='images/icon-note.png' title='Note' /></li>
+              <li data-filter='video'><img src='images/icon-video.png' title='Video' /></li>
+              <li data-filter='geo'><img src='images/icon-geo.png' title='Geo' /></li>
             </ul>
           </div>
           <div id="marker-list">
@@ -166,6 +166,6 @@
       </div>
 
     </div>
-
+    <script src="javascripts/ui.js"></script>
   </body>
 </html>
